@@ -35,10 +35,37 @@ class FlyingCreature(Creature):
         if not self.is_alive():
             print(f"{self.name} cannot attack because it is defeated.")
             return
+        
         print(f"{self.name} swoops down from altitude {self.altitude}!")
-
         print(f"{self.name} performs an aerial attack on {target.name} for {self.attack_power} damage!")
         target.hp = max(0, target.hp-self.attack_power)
+        print(f"{target.name} HP is now {target.hp}")
+
+
+# ===============================
+# SwimmingCreature Branch
+# ===============================
+
+class SwimmingCreature(Creature):
+    def __init__(self, name, hp, attack_power, depth=0):
+        super().__init__(name, hp, attack_power)
+        self.depth = depth
+
+    def dive_to(self, new_depth):
+        print(f"{self.name} dives to depth {self.depth} meters.")
+        self.depth+=new_depth
+
+
+    def attack(self, target):
+        if not self.is_alive():
+            print(f"{self.name} cannot attack because it is defeated.")
+            return
+
+        print(f"{self.name} attacks from underwater at depth {self.depth}!")
+        print(f"It splashes {target.name} for {self.attack_power} damage!")
+        target.hp = max(0, target.hp-self.attack_power)
+        print(f"{target.name} HP is now {target.hp}")
+
 
 
 if __name__ == "__main__":
@@ -104,3 +131,15 @@ if __name__ == "__main__":
     print()
     print("=== Tests Completed ===")
     print()
+
+    print("=== SwimmingCreature Tests ===\n")
+    serpent = SwimmingCreature("Aqua Serpent", 60, 7)
+    serpent.dive_to(30)
+    print(f"Depth should be 30 → Actual: {serpent.depth}")
+
+    dummy = Creature("Practice Dummy", 40, 0)
+    serpent.attack(dummy)
+    print(f"Dummy HP should be 33 → Actual: {dummy.hp}")
+    print()
+    print("=== Tests Completed ===")
+
